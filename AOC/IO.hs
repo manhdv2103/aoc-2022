@@ -1,10 +1,10 @@
-module AOC (
+module AOC.IO (
   getIp,
   copyOp,
   process
 ) where
 
-import Utils
+import AOC.Utils
 import Data.Char
 import GHC.IO.Exception
 import System.Directory
@@ -12,13 +12,13 @@ import System.Process
 
 getIp :: Int -> IO (String)
 getIp day = do
-  cookie <- fmap (reverse . dropWhile isSpace . reverse . dropWhile isSpace) $ readFile "../cookie" -- put your AOC session cookie in this file
+  cached <- doesFileExist "input"
+  if not cached then do
+    cookie <- fmap (reverse . dropWhile isSpace . reverse . dropWhile isSpace) $ readFile "../cookie" -- put your AOC session cookie in this file
 
-  if null cookie then
-    error "Missing cookie"
-  else do
-    cached <- doesFileExist "input"
-    input <- if not cached then do
+    if null cookie then
+      error "Missing cookie"
+    else do
       printr "Downloading input..."
       (errCode, stdout', stderr') <- readProcessWithExitCode "curl" ["-b", cookie, "-A", "'curl by manhvd2103@gmail.com'", "https://adventofcode.com/2022/day/" ++ (show day) ++ "/input"] ""
       writeFile "input" stdout'
@@ -27,11 +27,9 @@ getIp day = do
         return stdout'
       else
         error "Download input failed"
-    else do
-      contents <- readFile "input"
-      return contents
-
-    return input
+  else do
+    contents <- readFile "input"
+    return contents
 
 copyOp :: Show a => a -> IO ()
 copyOp content = do

@@ -1,5 +1,5 @@
-import AOC
-import Utils
+import AOC.IO
+import AOC.Utils
 import Data.List
 import Data.List.Split
 import Data.Char

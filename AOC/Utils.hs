@@ -1,4 +1,4 @@
-module Utils (
+module AOC.Utils (
   printr,
   tuplify2,
   tuplify3,

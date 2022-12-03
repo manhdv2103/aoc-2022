@@ -1,3 +1,3 @@
 #!/usr/bin/bash
-echo "answer.hs" | entr -c bash -c "ghc -i../utils -dynamic answer.hs > /dev/null && ./answer"
+echo "answer.hs" | entr -c bash -c "ghc -i../ -dynamic answer.hs > /dev/null && ./answer"
 
