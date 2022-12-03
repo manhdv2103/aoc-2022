@@ -1,6 +1,7 @@
 import AOC
 import Utils
 import Data.List
+import Data.List.Split
 import Data.Char
 import Data.Function
 import qualified Data.Map as Map
