@@ -10,6 +10,9 @@ import qualified Data.Set as Set
 -- part to show
 part = 2
 
+-- will submit?
+willSubmit = False
+
 getPriority :: Char -> Int
 getPriority c = if isLower c then oc - (ord 'a') + 1 else oc - (ord 'A') + 27
   where oc = ord c
@@ -25,5 +28,5 @@ solveP1 = sum . map (\r -> getPriority $ flip (!!) 0 $ findDuplicates $ splitAt 
 solveP2 = sum . map (getPriority . flip (!!) 0 . findDuplicates3) . chunksOf 3 . lines
 
 main :: IO ()
-main = process part solveP1 solveP2
+main = process part solveP1 solveP2 willSubmit
 

@@ -9,6 +9,9 @@ import qualified Data.Map as Map
 -- part to show
 part = 2
 
+-- will submit?
+willSubmit = False
+
 -- Game selections: 0 (Rock), 1 (Paper), 2 (Scissors)
 -- Game results (for me): 0 (Lose), 1 (Draw), 2 (Win)
 
@@ -34,5 +37,5 @@ solveP1 = sum . map (\x -> (gameScore $ play x) + (selScore $ x!!1)) . map (map 
 solveP2 = sum . map (\x -> let me = getMe x in (gameScore $ play [x!!0, me]) + selScore me) . map (map convert . splitOn " ") . lines
 
 main :: IO ()
-main = process part solveP1 solveP2
+main = process part solveP1 solveP2 willSubmit
 

@@ -11,10 +11,13 @@ module AOC.Utils (
   mapTuple5,
   mapTuple6,
   shiftChr,
-  shiftStr
+  shiftStr,
+  replace
 ) where
 
 import Data.Char
+import Data.List
+import Data.List.Split
 
 printr :: String -> IO ()
 printr = putStrLn . id
@@ -54,4 +57,7 @@ shiftChr c y = chr $ ord c + y
 
 shiftStr :: String -> Int -> String
 shiftStr x y = map (flip shiftChr y) x
+
+replace :: String -> String -> String -> String
+replace old new = intercalate new . splitOn old
 

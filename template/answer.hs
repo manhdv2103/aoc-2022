@@ -10,9 +10,12 @@ import qualified Data.Set as Set
 -- part to show
 part = 1
 
-solveP1 = ""
-solveP2 = ""
+-- will submit?
+willSubmit = False
+
+solveP1 xs = ""
+solveP2 xs = ""
 
 main :: IO ()
-main = process part solveP1 solveP2
+main = process part solveP1 solveP2 willSubmit
 
