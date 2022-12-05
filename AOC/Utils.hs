@@ -23,11 +23,6 @@ import Data.List
 import Data.Maybe
 import Data.List.Split
 
-firstLast::[a]->[a]
-firstLast [] = []
-firstLast [x] = []
-firstLast xs = tail (init xs)
-
 trimQuotes :: String -> String
 trimQuotes s
   | "\"" `isSuffixOf` s = fromMaybe s $ stripPrefix "\"" sTrimHead 
