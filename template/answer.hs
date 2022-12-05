@@ -5,9 +5,9 @@ import Data.List.Split
 import Data.Char
 import Data.Function
 import Data.Maybe
-import qualified Data.Map as Map
-import qualified Data.Set as Set
-import qualified Data.Vector as Vec
+import qualified Data.Map as M
+import qualified Data.Set as S
+import qualified Data.Vector as V
 
 -- part to show
 part = 1
