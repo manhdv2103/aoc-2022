@@ -1,5 +1,8 @@
+{-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
 module AOC.Utils (
-  printr,
+  prettyShow,
+  prettyPrint,
+  prettyPrintLn,
   tuplify2,
   tuplify3,
   tuplify4,
@@ -17,10 +20,28 @@ module AOC.Utils (
 
 import Data.Char
 import Data.List
+import Data.Maybe
 import Data.List.Split
 
-printr :: String -> IO ()
-printr = putStrLn . id
+firstLast::[a]->[a]
+firstLast [] = []
+firstLast [x] = []
+firstLast xs = tail (init xs)
+
+trimQuotes :: String -> String
+trimQuotes s
+  | "\"" `isSuffixOf` s = fromMaybe s $ stripPrefix "\"" sTrimHead 
+  | otherwise = s
+  where sTrimHead = init s
+
+prettyShow :: Show a => a -> String
+prettyShow = trimQuotes . show
+
+prettyPrint :: Show a => a -> IO ()
+prettyPrint = putStr . prettyShow
+
+prettyPrintLn :: Show a => a -> IO ()
+prettyPrintLn = putStrLn . prettyShow
 
 tuplify2 :: [a] -> (a,a)
 tuplify2 [x,y] = (x,y)

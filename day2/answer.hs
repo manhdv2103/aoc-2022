@@ -10,7 +10,7 @@ import qualified Data.Map as Map
 part = 2
 
 -- will submit?
-willSubmit = False
+willSubmit = 0
 
 -- Game selections: 0 (Rock), 1 (Paper), 2 (Scissors)
 -- Game results (for me): 0 (Lose), 1 (Draw), 2 (Win)

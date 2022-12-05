@@ -11,7 +11,7 @@ import qualified Data.Set as Set
 part = 2
 
 -- will submit?
-willSubmit = False
+willSubmit = 0
 
 getPriority :: Char -> Int
 getPriority c = if isLower c then oc - (ord 'a') + 1 else oc - (ord 'A') + 27

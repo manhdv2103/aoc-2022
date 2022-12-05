@@ -1,3 +1,4 @@
+{-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
 module AOC.IO (
   getIp,
   copyOp,
@@ -25,8 +26,8 @@ getIp day = do
     if null cookie then
       error "Missing cookie"
     else do
-      printr "Downloading input..."
-      (errCode, stdout', stderr') <- readProcessWithExitCode "curl" ["-b", cookie, "-A", "'curl by manhdv2103@gmail.com'", "https://adventofcode.com/2022/day/" ++ (show day) ++ "/input"] ""
+      prettyPrintLn "Downloading input..."
+      (errCode, stdout', stderr') <- readProcessWithExitCode "curl" ["-b", cookie, "-A", "'curl by manhdv2103@gmail.com'", "https://adventofcode.com/2022/day/" ++ (prettyShow day) ++ "/input"] ""
 
       if errCode == ExitSuccess then do
         writeFile "input" stdout'
@@ -39,7 +40,7 @@ getIp day = do
 
 copyOp :: Show a => a -> IO ()
 copyOp content = do
-  runCommand ("echo '" ++ (show content) ++ "' | xclip")
+  runCommand ("echo '" ++ (prettyShow content) ++ "' | xclip")
   return ()
 
 submit :: Show a => Int -> Int -> a -> IO (String)
@@ -49,8 +50,8 @@ submit day part answer = do
   if null cookie then
     error "Missing cookie"
   else do
-    printr "Submitting answer..."
-    (errCode, stdout', stderr') <- readProcessWithExitCode "bash" ["-c", "curl -b " ++ cookie ++ " -A 'curl by manhdv2103@gmail.com' -X POST --data 'level=" ++ (show part) ++ "&answer=" ++ (show answer) ++ "' 'https://adventofcode.com/2022/day/" ++ (show day) ++ "/answer' | xmllint --html --xpath 'normalize-space(//article/p)' - | sed 's/ \\[.*\\]//'"] ""
+    prettyPrintLn "Submitting answer..."
+    (errCode, stdout', stderr') <- readProcessWithExitCode "bash" ["-c", "curl -b " ++ cookie ++ " -A 'curl by manhdv2103@gmail.com' -X POST --data 'level=" ++ (prettyShow part) ++ "&answer=" ++ (prettyShow answer) ++ "' 'https://adventofcode.com/2022/day/" ++ (prettyShow day) ++ "/answer' | xmllint --html --xpath 'normalize-space(//article/p)' - | sed 's/ \\[.*\\]//'"] ""
 
     if errCode == ExitSuccess then do
       let response = replace " If you're stuck, make sure you're using the full input data; there are also some general tips on the about page, or you can ask for hints on the subreddit. Please wait one minute before trying again." "" $ replace "; you have to wait after submitting an answer before trying again" "" stdout'
@@ -58,19 +59,26 @@ submit day part answer = do
     else
       error "Download input failed"
 
-process :: Show a => Int -> (String -> a) -> (String -> a) -> Bool -> IO ()
+process :: (Show a, Show b) => Int -> (String -> a) -> (String -> b) -> Int -> IO ()
 process part solveP1 solveP2 willSubmit = do
   hSetBuffering stdout NoBuffering
   day <- fmap (read . pure . last) $ getCurrentDirectory
   input <- getIp day
 
-  printr ("Day " ++ (show day))
-  printr ("Part " ++ (show part) ++ ":")
-  let answer = if part == 1 then solveP1 input else solveP2 input
+  prettyPrintLn ("Day " ++ (prettyShow day))
+  prettyPrintLn ("Part " ++ (prettyShow part) ++ ":")
+  if part == 1 then do
+    let answer = solveP1 input
+    prettyPrintLn answer
+    copyOp answer
+    when (willSubmit == 1) $ do
+      respond <- submit day part answer
+      prettyPrintLn respond
+  else do
+    let answer = solveP2 input
+    prettyPrintLn answer
+    copyOp answer
+    when (willSubmit == 1) $ do
+      respond <- submit day part answer
+      prettyPrintLn respond
 
-  print answer
-  copyOp answer
-  when willSubmit $ do
-    respond <- submit day part answer
-    printr respond
-    

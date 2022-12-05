@@ -10,7 +10,7 @@ import qualified Data.Map as Map
 part = 2
 
 -- will submit?
-willSubmit = False
+willSubmit = 0
 
 solveP1 = maximum . map (sum . map read) . splitOn [""] . lines
 solveP2 = sum . take 3 . sortBy (flip compare) . map (sum . map read) . splitOn [""] . lines

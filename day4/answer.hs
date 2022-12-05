@@ -11,7 +11,7 @@ import qualified Data.Set as Set
 part = 2
 
 -- will submit?
-willSubmit = False
+willSubmit = 0
 
 isContains :: [Int] -> Bool
 isContains [a, b, c, d] = (a <= c && b >= d) || (c <= a && d >= b)
