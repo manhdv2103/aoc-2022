@@ -15,7 +15,8 @@ module AOC.Utils (
   mapTuple6,
   shiftChr,
   shiftStr,
-  replace
+  replace,
+  windows
 ) where
 
 import Data.Char
@@ -76,4 +77,7 @@ shiftStr x y = map (flip shiftChr y) x
 
 replace :: String -> String -> String -> String
 replace old new = intercalate new . splitOn old
+
+windows :: Int -> [a] -> [[a]]
+windows n xs = take (length xs - n) $ map (take n) $ tails xs
 
