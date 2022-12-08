@@ -59,26 +59,24 @@ submit day part answer = do
     else
       error "Download input failed"
 
+result :: Show a => Int -> Int -> Int -> a -> IO ()
+result day part willSubmit answer = do
+  prettyPrintLn answer
+  copyOp answer
+  when (willSubmit == 1) $ do
+    respond <- submit day part answer
+    prettyPrintLn respond
+
 process :: (Show a, Show b) => Int -> (String -> a) -> (String -> b) -> Int -> IO ()
 process part solveP1 solveP2 willSubmit = do
-  hSetBuffering stdout NoBuffering
   day <- fmap (read . pure . last) $ getCurrentDirectory
   input <- getIp day
 
   prettyPrintLn ("Day " ++ (prettyShow day))
   prettyPrintLn ("Part " ++ (prettyShow part) ++ ":")
-  if part == 1 then do
-    let answer = solveP1 input
-    prettyPrintLn answer
-    copyOp answer
-    when (willSubmit == 1) $ do
-      respond <- submit day part answer
-      prettyPrintLn respond
-  else do
-    let answer = solveP2 input
-    prettyPrintLn answer
-    copyOp answer
-    when (willSubmit == 1) $ do
-      respond <- submit day part answer
-      prettyPrintLn respond
+  
+  if part == 1 then
+    result day part willSubmit $ solveP1 input
+  else
+    result day part willSubmit $ solveP2 input
 

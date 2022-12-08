@@ -16,7 +16,11 @@ module AOC.Utils (
   shiftChr,
   shiftStr,
   replace,
-  windows
+  windows,
+  zip2d,
+  zipWith2d,
+  map2d,
+  f2d
 ) where
 
 import Data.Char
@@ -80,4 +84,16 @@ replace old new = intercalate new . splitOn old
 
 windows :: Int -> [a] -> [[a]]
 windows n xs = take (length xs - n) $ map (take n) $ tails xs
+
+zip2d :: [[a]] -> [[b]] -> [[(a, b)]]
+zip2d = zipWith zip
+
+zipWith2d :: (a -> b -> c) -> [[a]] -> [[b]] -> [[c]]
+zipWith2d f = zipWith (zipWith f)
+
+map2d :: (a -> b) -> [[a]] -> [[b]]
+map2d f = map (map f)
+
+f2d :: ([a] -> a) -> [[a]] -> a
+f2d f = f . map f
 
