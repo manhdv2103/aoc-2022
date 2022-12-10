@@ -20,7 +20,8 @@ module AOC.Utils (
   zip2d,
   zipWith2d,
   map2d,
-  f2d
+  f2d,
+  getIndices
 ) where
 
 import Data.Char
@@ -35,7 +36,7 @@ trimQuotes s
   where sTrimHead = init s
 
 prettyShow :: Show a => a -> String
-prettyShow = trimQuotes . show
+prettyShow = replace "\\n" "\n" . trimQuotes . show
 
 prettyPrint :: Show a => a -> IO ()
 prettyPrint = putStr . prettyShow
@@ -96,4 +97,7 @@ map2d f = map (map f)
 
 f2d :: ([a] -> a) -> [[a]] -> a
 f2d f = f . map f
+
+getIndices :: [Int] -> [a] -> [a]
+getIndices indices = map snd . filter (flip elem indices . fst) . zip [0..]
 

@@ -9,6 +9,7 @@ module AOC.IO (
 import AOC.Utils
 import Data.Char
 import GHC.IO.Exception
+import Data.List.Split
 import System.Directory
 import System.IO
 import System.Process
@@ -69,7 +70,7 @@ result day part willSubmit answer = do
 
 process :: (Show a, Show b) => Int -> (String -> a) -> (String -> b) -> Int -> IO ()
 process part solveP1 solveP2 willSubmit = do
-  day <- fmap (read . pure . last) $ getCurrentDirectory
+  day <- fmap (read . drop 3 . last . splitOn "/") $ getCurrentDirectory
   input <- getIp day
 
   prettyPrintLn ("Day " ++ (prettyShow day))
