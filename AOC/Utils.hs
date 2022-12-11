@@ -13,6 +13,7 @@ module AOC.Utils (
   mapTuple4,
   mapTuple5,
   mapTuple6,
+  zipTuple2,
   shiftChr,
   shiftStr,
   replace,
@@ -21,7 +22,8 @@ module AOC.Utils (
   zipWith2d,
   map2d,
   f2d,
-  getIndices
+  getIndices,
+  divisible
 ) where
 
 import Data.Char
@@ -74,6 +76,9 @@ mapTuple5 f (x,y,z,a,b) = (f x,f y,f z,f a,f b)
 mapTuple6 :: (a -> b) -> (a,a,a,a,a,a) -> (b,b,b,b,b,b)
 mapTuple6 f (x,y,z,a,b,c) = (f x,f y,f z,f a,f b,f c)
 
+zipTuple2 :: (a -> b -> c) -> (a,a) -> (b,b) -> (c,c)
+zipTuple2 f (a,b) (a',b')  = (f a a', f b b')
+
 shiftChr :: Char -> Int -> Char
 shiftChr c y = chr $ ord c + y
 
@@ -100,4 +105,7 @@ f2d f = f . map f
 
 getIndices :: [Int] -> [a] -> [a]
 getIndices indices = map snd . filter (flip elem indices . fst) . zip [0..]
+
+divisible :: Int -> Int -> Bool
+divisible x y = x `rem` y == 0
 
