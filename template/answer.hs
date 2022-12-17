@@ -1,3 +1,7 @@
+{-# LANGUAGE PostfixOperators #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE LambdaCase #-}
+
 import AOC.IO
 import AOC.Utils
 import Data.List
@@ -5,6 +9,7 @@ import Data.List.Split
 import Data.Char
 import Data.Function
 import Data.Maybe
+import Control.Monad
 import qualified Data.Map as M
 import qualified Data.Set as S
 import qualified Data.Vector as V

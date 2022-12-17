@@ -6,14 +6,14 @@ module AOC.Utils (
   tuplify2,
   tuplify3,
   tuplify4,
-  tuplify5,
-  tuplify6,
   mapTuple2,
   mapTuple3,
   mapTuple4,
-  mapTuple5,
-  mapTuple6,
   zipTuple2,
+  zipTuple3,
+  zipTuple4,
+  first,
+  second,
   shiftChr,
   shiftStr,
   replace,
@@ -55,12 +55,6 @@ tuplify3 [x,y,z] = (x,y,z)
 tuplify4 :: [a] -> (a,a,a,a)
 tuplify4 [x,y,z,a] = (x,y,z,a)
 
-tuplify5 :: [a] -> (a,a,a,a,a)
-tuplify5 [x,y,z,a,b] = (x,y,z,a,b)
-
-tuplify6 :: [a] -> (a,a,a,a,a,a)
-tuplify6 [x,y,z,a,b,c] = (x,y,z,a,b,c)
-
 mapTuple2 :: (a -> b) -> (a,a) -> (b,b)
 mapTuple2 f (x,y) = (f x,f y)
 
@@ -70,14 +64,20 @@ mapTuple3 f (x,y,z) = (f x,f y,f z)
 mapTuple4 :: (a -> b) -> (a,a,a,a) -> (b,b,b,b)
 mapTuple4 f (x,y,z,a) = (f x,f y,f z,f a)
 
-mapTuple5 :: (a -> b) -> (a,a,a,a,a) -> (b,b,b,b,b)
-mapTuple5 f (x,y,z,a,b) = (f x,f y,f z,f a,f b)
-
-mapTuple6 :: (a -> b) -> (a,a,a,a,a,a) -> (b,b,b,b,b,b)
-mapTuple6 f (x,y,z,a,b,c) = (f x,f y,f z,f a,f b,f c)
-
 zipTuple2 :: (a -> b -> c) -> (a,a) -> (b,b) -> (c,c)
 zipTuple2 f (a,b) (a',b')  = (f a a', f b b')
+
+zipTuple3 :: (a -> b -> c) -> (a,a,a) -> (b,b,b) -> (c,c,c)
+zipTuple3 f (a,b,c) (a',b',c')  = (f a a', f b b', f c c')
+
+zipTuple4 :: (a -> b -> c) -> (a,a,a,a) -> (b,b,b,b) -> (c,c,c,c)
+zipTuple4 f (a,b,c,d) (a',b',c',d')  = (f a a', f b b', f c c', f d d')
+
+first :: (a -> c) -> (a, b) -> (c, b)
+first f (a, b) = (f a, b)
+
+second :: (b -> c) -> (a, b) -> (a, c)
+second f (a, b) = (a, f b)
 
 shiftChr :: Char -> Int -> Char
 shiftChr c y = chr $ ord c + y
@@ -89,7 +89,7 @@ replace :: String -> String -> String -> String
 replace old new = intercalate new . splitOn old
 
 windows :: Int -> [a] -> [[a]]
-windows n xs = take (length xs - n) $ map (take n) $ tails xs
+windows n = divvy n 1
 
 zip2d :: [[a]] -> [[b]] -> [[(a, b)]]
 zip2d = zipWith zip
