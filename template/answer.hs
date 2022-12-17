@@ -13,6 +13,7 @@ import Control.Monad
 import qualified Data.Map as M
 import qualified Data.Set as S
 import qualified Data.Vector as V
+import qualified Data.Sequence as SQ
 
 -- part to show
 part = 1
