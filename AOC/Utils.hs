@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleInstances, UndecidableInstances #-}
 module AOC.Utils (
+  Coord,
   prettyShow,
   prettyPrint,
   prettyPrintLn,
@@ -14,6 +15,20 @@ module AOC.Utils (
   zipTuple4,
   first,
   second,
+  first3,
+  second3,
+  third3,
+  first4,
+  second4,
+  third4,
+  fourth4,
+  fst3,
+  snd3,
+  trd3,
+  fst4,
+  snd4,
+  trd4,
+  fth4,
   shiftChr,
   shiftStr,
   replace,
@@ -23,13 +38,20 @@ module AOC.Utils (
   map2d,
   f2d,
   getIndices,
-  divisible
+  divisible,
+  nTimes,
+  pairs,
+  pairs2,
+  between,
+  isEven
 ) where
 
 import Data.Char
 import Data.List
 import Data.Maybe
 import Data.List.Split
+
+type Coord = (Int, Int)
 
 trimQuotes :: String -> String
 trimQuotes s
@@ -79,6 +101,48 @@ first f (a, b) = (f a, b)
 second :: (b -> c) -> (a, b) -> (a, c)
 second f (a, b) = (a, f b)
 
+first3 :: (a -> d) -> (a, b, c) -> (d, b, c)
+first3 f (a, b, c) = (f a, b, c)
+
+second3 :: (b -> d) -> (a, b, c) -> (a, d, c)
+second3 f (a, b, c) = (a, f b, c)
+
+third3 :: (c -> d) -> (a, b, c) -> (a, b, d)
+third3 f (a, b, c) = (a, b, f c)
+
+first4 :: (a -> e) -> (a, b, c, d) -> (e, b, c, d)
+first4 f (a, b, c, d) = (f a, b, c, d)
+
+second4 :: (b -> e) -> (a, b, c, d) -> (a, e, c, d)
+second4 f (a, b, c, d) = (a, f b, c, d)
+
+third4 :: (c -> e) -> (a, b, c, d) -> (a, b, e, d)
+third4 f (a, b, c, d) = (a, b, f c, d)
+
+fourth4 :: (d -> e) -> (a, b, c, d) -> (a, b, c, e)
+fourth4 f (a, b, c, d) = (a, b, c, f d)
+
+fst3 :: (a, b, c) -> a
+fst3 (a, b, c) = a
+
+snd3 :: (a, b, c) -> b
+snd3 (a, b, c) = b
+
+trd3 :: (a, b, c) -> c
+trd3 (a, b, c) = c
+
+fst4 :: (a, b, c, d) -> a
+fst4 (a, b, c, d) = a
+
+snd4 :: (a, b, c, d) -> b
+snd4 (a, b, c, d) = b
+
+trd4 :: (a, b, c, d) -> c
+trd4 (a, b, c, d) = c
+
+fth4 :: (a, b, c, d) -> d
+fth4 (a, b, c, d) = d
+
 shiftChr :: Char -> Int -> Char
 shiftChr c y = chr $ ord c + y
 
@@ -104,8 +168,23 @@ f2d :: ([a] -> a) -> [[a]] -> a
 f2d f = f . map f
 
 getIndices :: [Int] -> [a] -> [a]
-getIndices indices = map snd . filter (flip elem indices . fst) . zip [0..]
+getIndices indices xs = map (xs !!) indices
 
 divisible :: Int -> Int -> Bool
 divisible x y = x `rem` y == 0
+
+nTimes :: Int -> (a -> a) -> a -> a
+nTimes n f a = foldl (\a' _ -> f a') a [1..n]
+
+pairs :: [a] -> [(a, a)]
+pairs ls = [(x, y) | (x:ys) <- tails ls, y <- ys]
+
+pairs2 :: [a] -> [b] -> [(a, b)]
+pairs2 a b = [(x,y) | x <- a, y <- b]
+
+between :: Int -> Int -> Int -> Bool
+between x z y = ((x <= y) && (y <= z)) || ((z <= y) && (y <= x))
+
+isEven :: Int -> Bool
+isEven n = n `mod` 2 == 0
 
