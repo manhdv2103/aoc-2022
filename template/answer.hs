@@ -13,6 +13,8 @@ import Debug.Trace
 import Control.Monad
 import qualified Data.Map as M
 import qualified Data.Set as S
+import qualified Data.HashMap.Strict as HM
+import qualified Data.HashSet as HS
 import qualified Data.Vector as V
 import qualified Data.Sequence as SQ
 import qualified Data.IntMap.Strict as IM

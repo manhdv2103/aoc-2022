@@ -41,6 +41,7 @@ module AOC.Utils (
   divisible,
   nTimes,
   pairs,
+  pairs',
   pairs2,
   between,
   isEven
@@ -49,6 +50,7 @@ module AOC.Utils (
 import Data.Char
 import Data.List
 import Data.Maybe
+import Data.Tuple
 import Data.List.Split
 
 type Coord = (Int, Int)
@@ -178,6 +180,10 @@ nTimes n f a = foldl (\a' _ -> f a') a [1..n]
 
 pairs :: [a] -> [(a, a)]
 pairs ls = [(x, y) | (x:ys) <- tails ls, y <- ys]
+
+pairs' :: [a] -> [(a, a)]
+pairs' ls = ps ++ (map swap ps)
+  where ps = pairs ls
 
 pairs2 :: [a] -> [b] -> [(a, b)]
 pairs2 a b = [(x,y) | x <- a, y <- b]
